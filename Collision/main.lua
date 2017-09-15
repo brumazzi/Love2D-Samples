@@ -42,9 +42,9 @@ function love.load()
 	wall.left.body:setUserData("WALL")
 	wall.right.body:setUserData("WALL")
 
-	local f_block = io.open("scenne.dta")
-	local i_block = f_block:read("*a")
-	io.close(f_block)
+	--local f_block = io.open("scenne.dta")
+	--local i_block = f_block:read("*a")
+	--io.close(f_block)
 
 	local i = 0
 	block = {}
