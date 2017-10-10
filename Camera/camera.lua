@@ -23,7 +23,7 @@ function Camera:move(dx, dy)
 end
 
 function Camera:rotate(dr)
-	self.rotation = self.rotation + dr
+	self.rotation = self.rotation + (dr or 0)
 end
 
 function Camera:scale(sx, sy)
