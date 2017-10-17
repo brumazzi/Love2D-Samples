@@ -14,6 +14,7 @@ function love.load()
 	cube.fixture = love.physics.newFixture(cube.body, cube.shape)
 
 	WW, WH, WF = love.window.getMode()
+	cam.maxX = 32*64-WW
 end
 
 function love.update(dt)
@@ -27,19 +28,17 @@ function love.update(dt)
 	end
 
 	local px = cube.body:getX()
+	cam:move(px - (cam.x+WW/2),0)
+	--[[if cam.x > 0 then
+		if px < cam.x + WW/2 + 32 then
+			cam:move(px - (cam.x+WW/2),0)
+		end
+	end
 	if cam.x < 32*64-WW then
 		if px > cam.x + WW/2 -64 then
-		--if cam.x < 32*64-WW then
-			cam:move(10,0)
+			cam:move(px - (cam.x+WW/2),0)
 		end
-	end
-	if cam.x > 0 then
-		if px < cam.x + WW/2 + 32 then
---		if cam.x > 0 then
-			cam:move(-10,0)
-			--cam:move(-10,0)
-		end
-	end
+	end]]
 
 	love.window.setTitle(cam.x.."xx"..cube.body:getX())
 end
