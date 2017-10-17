@@ -6,19 +6,23 @@ function love.load()
 	world = love.physics.newWorld(0,9.8*60,true)
 	sky = love.graphics.newImage("sky_101.bmp")
 
-	map = load_map("scenne.dta", world)
+	-- load scane
+	map = load_map("scene.dta", world)
 
+	-- create cube object
 	cube = {}
 	cube.body = love.physics.newBody(world, 64, 0, "dynamic")
 	cube.shape = love.physics.newPolygonShape(0,0,64,0,64,64,0,64)
 	cube.fixture = love.physics.newFixture(cube.body, cube.shape)
 
-	WW, WH, WF = love.window.getMode()
-	cam.maxX = 32*64-WW
+	WW, WH, WF = love.window.getMode() -- window dimension
+	cam.maxX = 32*64-WW -- define cam limits
 end
 
 function love.update(dt)
 	world:update(dt)
+
+	-- move object by key
 	if love.keyboard.isDown("left") then
 		local vx,vy = cube.body:getLinearVelocity()
 		cube.body:setLinearVelocity(-230, vy)
@@ -28,26 +32,15 @@ function love.update(dt)
 	end
 
 	local px = cube.body:getX()
-	cam:move(px - (cam.x+WW/2),0)
-	--[[if cam.x > 0 then
-		if px < cam.x + WW/2 + 32 then
-			cam:move(px - (cam.x+WW/2),0)
-		end
-	end
-	if cam.x < 32*64-WW then
-		if px > cam.x + WW/2 -64 then
-			cam:move(px - (cam.x+WW/2),0)
-		end
-	end]]
-
-	love.window.setTitle(cam.x.."xx"..cube.body:getX())
+	local py = cube.body:getX()
+	cam:move(px - (cam.x+WW/2), py - (cam.y+WH/2)) -- move cam
 end
 
 function love.keypressed(key, scancode, isrepeat)
+	-- jump with space
 	if scancode == 'space' then
 		cube.body:setLinearVelocity(0,-360)
 	end
-	love.window.setTitle(scancode)
 end
 
 function love.keyreleassed(key, scancode)
@@ -60,11 +53,15 @@ end
 function love.draw()
 	love.graphics.setColor(255,255,255)
 	love.graphics.draw(sky, 0, 0)
+
+	-- set cam
 	cam:set()
 
-	map_draw(map)
+	-- draw scene
+	map_draw(map) 
+	love.graphics.setColor(32,74,135)
 	love.graphics.polygon("fill", cube.body:getX(), cube.body:getY(), cube.body:getWorldPoints(cube.shape:getPoints()))
-	--love.graphics.circle("fill", cube.body:getX(), cube.body:getY(), cube.shape:getRadius())
 
+	-- unset cam
 	cam:unset()
 end
