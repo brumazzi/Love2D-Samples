@@ -1,6 +1,13 @@
 require 'camera'
 require 'map'
 
+function positive(num)
+	if num < 0 then
+		return -1*num
+	end
+	return num
+end
+
 function love.load()
 	cam = Camera
 	world = love.physics.newWorld(0,9.8*60,true)
@@ -12,11 +19,12 @@ function love.load()
 	-- create cube object
 	cube = {}
 	cube.body = love.physics.newBody(world, 64, 0, "dynamic")
-	cube.shape = love.physics.newPolygonShape(0,0,64,0,64,64,0,64)
+	cube.shape = love.physics.newPolygonShape(0,0,32,0,32,32,0,32)
 	cube.fixture = love.physics.newFixture(cube.body, cube.shape)
 
-	WW, WH, WF = love.window.getMode() -- window dimension
-	cam.maxX = 32*64-WW -- define cam limits
+	WW, WH, WF = love.window.getMode() -- get window dimension
+	cam.maxX = #map[1]*64-WW -- define cam limits
+	cam.maxY = #map*32-WH -- define cam limits
 end
 
 function love.update(dt)
@@ -32,7 +40,8 @@ function love.update(dt)
 	end
 
 	local px = cube.body:getX()
-	local py = cube.body:getX()
+	local py = cube.body:getY()
+
 	cam:move(px - (cam.x+WW/2), py - (cam.y+WH/2)) -- move cam
 end
 

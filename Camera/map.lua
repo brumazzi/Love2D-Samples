@@ -18,6 +18,14 @@ function load_map(name, world)
 			ground.color = {30,160,36}
 
 			table.insert(map[#map], ground)
+		elseif char == 'c' then
+			local coin = {}
+			coin.body = love.physics.newBody(world, 0, 0)
+			coin.shape = love.physics.newPolygonShape(0,0,0,16,16,16,16,0)
+			coin.fixture = love.physics.newFixture(coin.body, coin.shape)
+			coin.color = {237,212,00}
+
+			table.insert(map[#map], coin)
 		end
 	end
 	
